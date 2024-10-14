@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes da Prova</title>
+</head>
+<body>
+  <h1>Detalhes da Prova: <%= prova.nome %></h1>
+  <ul>
+    <% prova.questoes.forEach(questao => { %>
+      <li>Questão <%= questao.numero %>: <%= questao.alternativa %></li>
+    <% }) %>
+  </ul>
+  <a href="/listar">Voltar para a lista de provas</a>
+</body>
+</html>

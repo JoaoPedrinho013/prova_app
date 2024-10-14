@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Provas</title>
+</head>
+
+<body>
+    <h1>Provas Salvas</h1>
+    <ul>
+        <% provas.forEach(prova=> { %>
+            <li>
+                <%= prova.nome %> -
+                    <a href="/provas/<%= prova._id %>">Ver detalhes</a>
+            </li>
+            <% }) %>
+    </ul>
+
+</body>
+
+</html>
