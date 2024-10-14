@@ -31,26 +31,55 @@ router.post('/salvar', async (req, res) => {
     res.redirect('/');
   });
 
+// Rota para atualizar as questões não respondidas
+router.post('/:id/atualizar', async (req, res) => {
+  try {
+      const provaId = req.params.id;
+      const prova = await Prova.findById(provaId);
+
+      if (!prova) {
+          return res.status(404).send('Prova não encontrada.');
+      }
+
+      // Atualiza as questões não respondidas
+      for (let i = 0; i < prova.questoes.length; i++) {
+          if (prova.questoes[i].alternativa === 'Não respondida') {
+              const novaAlternativa = req.body[`questao${prova.questoes[i].numero}`];
+              if (novaAlternativa) {
+                  prova.questoes[i].alternativa = novaAlternativa;
+              }
+          }
+      }
+
+      // Salva as atualizações no banco de dados
+      await prova.save();
+      res.redirect(`/provas/${provaId}`);
+  } catch (error) {
+      console.error('Erro ao atualizar a prova:', error);
+      res.status(500).send('Erro ao atualizar a prova');
+  }
+});
+
 
 // Rota para ver detalhes da prova
 router.get('/provas/:id', async (req, res) => {
-    try {
-      console.log('ID da prova:', req.params.id); // Log do ID da prova
-      const provaId = req.params.id;
-      const prova = await Prova.findById(provaId);
-  
-      if (!prova) {
-        console.log('Prova não encontrada'); // Log para prova não encontrada
-        return res.status(404).send('Prova não encontrada.');
-      }
-  
-      // Renderiza a página de detalhes com as informações da prova
-      res.render('detalhes', { prova });
-    } catch (error) {
-      console.error('Erro ao buscar a prova:', error); // Log detalhado do erro
-      res.status(500).send('Erro ao buscar a prova');
+  try {
+    const provaId = req.params.id;
+    const prova = await Prova.findById(provaId);
+
+    if (!prova) {
+      return res.status(404).send('Prova não encontrada.');
     }
-  });
+
+    // Renderiza a página de detalhes, enviando a prova
+    res.render('detalhesProva', { prova });
+  } catch (error) {
+    console.error('Erro ao buscar a prova:', error);
+    res.status(500).send('Erro ao buscar a prova');
+  }
+});
+
+
   
 
 // Listar todas as provas

@@ -6,12 +6,35 @@
   <title>Detalhes da Prova</title>
 </head>
 <body>
-  <h1>Detalhes da Prova: <%= prova.nome %></h1>
-  <ul>
-    <% prova.questoes.forEach(questao => { %>
-      <li>Questão <%= questao.numero %>: <%= questao.alternativa %></li>
-    <% }) %>
-  </ul>
-  <a href="../provas/listar">Voltar para a lista de provas</a>
+  <h1>Detalhes da Prova - <%= prova.nome %></h1>
+  <form action="/provas/<%= prova._id %>/atualizar" method="POST">
+
+    <ul>
+      <% for (let i = 0; i < prova.questoes.length; i++) { %>
+        <li>
+          <label for="questao<%= prova.questoes[i].numero %>">Questão <%= prova.questoes[i].numero %>:</label>
+          <% if (prova.questoes[i].alternativa === 'Não respondida') { %>
+            <!-- Se não respondida, exibe um select para escolher a resposta -->
+            <select name="questao<%= prova.questoes[i].numero %>" id="questao<%= prova.questoes[i].numero %>">
+              <option value="">Selecione</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+            </select>
+          <% } else { %>
+            <!-- Se já respondida, exibe o valor da resposta -->
+            <span><%= prova.questoes[i].alternativa %></span>
+          <% } %>
+        </li>
+      <% } %>
+    </ul>
+
+    <% if (prova.questoes.some(questao => questao.alternativa === 'Não respondida')) { %>
+      <!-- Exibe o botão de salvar apenas se houver questões não respondidas -->
+      <button type="submit">Salvar Respostas</button>
+    <% } %>
+  </form>
 </body>
 </html>
