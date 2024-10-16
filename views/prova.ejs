@@ -4,23 +4,106 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Criar Prova</title>
+
+  <style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Times New Roman', Times, serif, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  
+  background: linear-gradient(to left, rgb(39, 39, 39), rgb(163, 163, 163)) ;
+  background-size: cover; /* Faz o gradiente ocupar toda a área disponível */
+}
+
+
+    form.teste {
+      display: flex;
+      flex-direction: column;
+      width: 50rem;
+      max-width: 900px;
+      border: 1px solid whitesmoke;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: whitesmoke;
+      
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 40px;
+    }
+
+    label {
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+
+    input[type="text"] {
+      width: 97%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #4db333;
+      border-radius: 5px;
+      
+    }
+
+    .questoes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .questao {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-  <h1>Criar Prova</h1>
-  <form action="/provas/salvar" method="POST">
-    <label for="nome">Nome da Prova:</label>
+  <form action="/provas/salvar" method="POST" class="teste">
+    <h1>Criar Prova</h1>
+    
+    <label for="nome" style="font-size: 30px;">Nome da Prova:</label>
     <input type="text" id="nome" name="nome" required>
-    <br><br>
 
-    <% for(let i = 1; i <= 54; i++) { %>
-      <p><%= i %> - 
-        <label><input type="radio" name="questao<%= i %>" value="A"> A</label>
-        <label><input type="radio" name="questao<%= i %>" value="B"> B</label>
-        <label><input type="radio" name="questao<%= i %>" value="C"> C</label>
-        <label><input type="radio" name="questao<%= i %>" value="D"> D</label>
-        <label><input type="radio" name="questao<%= i %>" value="E"> E</label>
-      </p>
-    <% } %>
+    <div class="questoes">
+      <% for(let i = 1; i <= 54; i++) { %>
+        <div class="questao">
+          <p><%= i %> - 
+            <label><input type="radio" name="questao<%= i %>" value="A"> A</label>
+            <label><input type="radio" name="questao<%= i %>" value="B"> B</label>
+            <label><input type="radio" name="questao<%= i %>" value="C"> C</label>
+            <label><input type="radio" name="questao<%= i %>" value="D"> D</label>
+            <label><input type="radio" name="questao<%= i %>" value="E"> E</label>
+          </p>
+        </div>
+      <% } %>
+    </div>
 
     <button type="submit">Salvar Prova</button>
   </form>

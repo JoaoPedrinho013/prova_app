@@ -4,17 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detalhes da Prova</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Times New Roman', Times, serif, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: linear-gradient(to left, rgb(39, 39, 39), rgb(163, 163, 163));
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 40px;
+      margin-bottom: 10rem;
+      margin-top: 5rem;
+      color: black;
+      
+    }
+    form {
+      width: 50rem;
+      max-width: 900px;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white; /* Fundo branco para o formulário */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra para o formulário */
+    }
+    ul {
+      list-style-type: none; /* Remove os marcadores padrão */
+      padding: 0; /* Remove o preenchimento padrão */
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      text-align: left; /* Alinha o texto à esquerda */
+    }
+    li {
+      margin: 13px 0; /* Espaçamento entre os itens da lista */
+      color: black; /* Cor do texto da lista */
+      font-size: 20px; /* Ajuste o tamanho da fonte se necessário */
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-  <h1>Detalhes da Prova - <%= prova.nome %></h1>
   <form action="/provas/<%= prova._id %>/atualizar" method="POST">
-
+    <h1>Detalhes da Prova - <%= prova.nome %></h1>
     <ul>
       <% for (let i = 0; i < prova.questoes.length; i++) { %>
         <li>
           <label for="questao<%= prova.questoes[i].numero %>">Questão <%= prova.questoes[i].numero %>:</label>
           <% if (prova.questoes[i].alternativa === 'Não respondida') { %>
-            <!-- Se não respondida, exibe um select para escolher a resposta -->
             <select name="questao<%= prova.questoes[i].numero %>" id="questao<%= prova.questoes[i].numero %>">
               <option value="">Selecione</option>
               <option value="A">A</option>
@@ -24,7 +76,6 @@
               <option value="E">E</option>
             </select>
           <% } else { %>
-            <!-- Se já respondida, exibe o valor da resposta -->
             <span><%= prova.questoes[i].alternativa %></span>
           <% } %>
         </li>
@@ -32,7 +83,6 @@
     </ul>
 
     <% if (prova.questoes.some(questao => questao.alternativa === 'Não respondida')) { %>
-      <!-- Exibe o botão de salvar apenas se houver questões não respondidas -->
       <button type="submit">Salvar Respostas</button>
     <% } %>
   </form>
